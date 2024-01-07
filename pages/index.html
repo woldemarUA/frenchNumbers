@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bonjour </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="h5 p-5">Bonojur vous pouvez taper votre nombre en chiffres et je l'ecrirais en francais</h1>
+        <form action="/" method="POST" id='form-nombre'>
+            <input type="number" class="form-control" id="nombre" name="nombre">
+            <button class="btn btn-primary my-2" type='submit'>Envoie</button>
+        </form>
+
+        <p class="text-success h2" id="response"></p>
+    </div>
+
+    <script>
+        document.getElementById('form-nombre').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const reponseEl = document.getElementById('response')
+            const numberValue = document.getElementById('nombre').value;
+            reponseEl.innerText = '';
+            fetch('/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ numberValue }) // Sending as JSON
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Response from server:', data.result);
+                    reponseEl.innerText = data.result
+                    // Handle the response from the server as needed
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    </script>
+
+</body>
+
+</html>
