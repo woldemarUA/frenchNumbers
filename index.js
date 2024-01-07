@@ -10,7 +10,7 @@ const PORT = 3000;
 app.use(express.json());
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '/pages/index.html'));
+  res.sendFile(path.join(__dirname, 'pages', 'index.html'));
 });
 
 app.post('/submit', async (req, res) => {
